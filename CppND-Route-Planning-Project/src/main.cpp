@@ -57,16 +57,16 @@ int main(int argc, const char **argv)
     // RoutePlanner object below in place of 10, 10, 90, 90.
     float start_x, start_y, end_x, end_y;
     std::cout<<"The map coordinates start from (0,0) in the bottom left and end at (100,100) in the top right." << "\n";
-    std::cout<<"Enter start_x between 0 and 100 : ";
+    std::cout<<"Enter start_x [0..100] : ";
     std::cin>>start_x;
 
-    std::cout<<"Enter start_y between 0 and 100 : ";
+    std::cout<<"Enter start_y [0..100] : ";
     std::cin>>start_y;
 
-    std::cout<<"Enter end_x between 0 and 100 : ";
+    std::cout<<"Enter end_x [0..100] : ";
     std::cin>>end_x;
 
-    std::cout<<"Enter end_y between 0 and 100 : ";
+    std::cout<<"Enter end_y [0..100] : ";
     std::cin>>end_y;
     // Build Model.
     RouteModel model{osm_data};

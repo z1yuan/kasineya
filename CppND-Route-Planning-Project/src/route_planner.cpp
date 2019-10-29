@@ -51,9 +51,15 @@ void RoutePlanner::AddNeighbors(RouteModel::Node *current_node) {
 // - Create a pointer to the node in the list with the lowest sum.
 // - Remove that node from the open_list.
 // - Return the pointer.
+bool compareNode (RouteModel::Node *nodeA, RouteModel::Node *nodeB) { 
+    return ((nodeA->g_value + nodeA->h_value) < (nodeB->g_value + nodeB->h_value)); 
+}
 
 RouteModel::Node *RoutePlanner::NextNode() {
-
+    std::sort (this->open_list.begin(), this->open_list.end(), compareNode);
+    RouteModel::Node *nextNode = this->open_list.front();
+    open_list.erase(open_list.begin());
+    return nextNode;
 }
 
 
@@ -71,10 +77,15 @@ std::vector<RouteModel::Node> RoutePlanner::ConstructFinalPath(RouteModel::Node 
     std::vector<RouteModel::Node> path_found;
 
     // TODO: Implement your solution here.
-
+    while(current_node->parent != nullptr){
+        distance += current_node->distance(*current_node->parent);
+        path_found.push_back(*current_node);
+        current_node = current_node->parent;
+    }
+    path_found.push_back(*current_node);
+    std::reverse(path_found.begin(),path_found.end());
     distance *= m_Model.MetricScale(); // Multiply the distance by the scale of the map to get meters.
     return path_found;
-
 }
 
 
@@ -86,8 +97,16 @@ std::vector<RouteModel::Node> RoutePlanner::ConstructFinalPath(RouteModel::Node 
 // - Store the final path in the m_Model.path attribute before the method exits. This path will then be displayed on the map tile.
 
 void RoutePlanner::AStarSearch() {
-    RouteModel::Node *current_node = nullptr;
-
     // TODO: Implement your solution here.
-
+    RouteModel::Node *current_node = nullptr;
+    current_node = this->start_node;
+    current_node->visited = true;
+    this->open_list.push_back(current_node);
+    while(open_list.size() > 0) {
+        current_node = NextNode();
+        if((current_node->x == this->end_node->x)&&(current_node->y == this->end_node->y)){
+             m_Model.path = ConstructFinalPath(current_node);
+        }
+        AddNeighbors(current_node);
+    }   
 }
