@@ -12,7 +12,7 @@ class RouteModel : public Model {
   public:
     class Node : public Model::Node {
       public:
-        Node * parent = nullptr;
+        Node *parent = nullptr;
         float h_value = std::numeric_limits<float>::max();
         float g_value = 0.0;
         bool visited = false;
@@ -20,16 +20,22 @@ class RouteModel : public Model {
 
         void FindNeighbors();
         float distance(Node other) const {
-            return std::sqrt(std::pow((x - other.x), 2) + std::pow((y - other.y), 2));
+          /*
+          Here is a warning on using power function for integral value or if you cast the value returned by pow(x,n);
+          Please go through the same.
+          https://www.geeksforgeeks.org/power-function-cc/
+          */
+          // i am going to skip the review suggestion, since the result of pow and x is double here.  
+          return std::sqrt(std::pow((x - other.x), 2) + std::pow((y - other.y), 2));
         }
 
         Node(){}
-        Node(int idx, RouteModel * search_model, Model::Node node) : Model::Node(node), parent_model(search_model), index(idx) {}
+        Node(int idx, RouteModel *search_model, Model::Node node) : Model::Node(node), parent_model(search_model), index(idx) {}
 
       private:
         int index;
-        Node * FindNeighbor(std::vector<int> node_indices);
-        RouteModel * parent_model = nullptr;
+        Node *FindNeighbor(std::vector<int> node_indices);
+        RouteModel *parent_model = nullptr;
     };
 
     RouteModel(const std::vector<std::byte> &xml);

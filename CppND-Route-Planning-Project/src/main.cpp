@@ -55,24 +55,69 @@ int main(int argc, const char **argv)
     // TODO 1: Declare floats `start_x`, `start_y`, `end_x`, and `end_y` and get
     // user input for these values using std::cin. Pass the user input to the
     // RoutePlanner object below in place of 10, 10, 90, 90.
+    /*
     float start_x, start_y, end_x, end_y;
-    std::cout<<"The map coordinates start from (0,0) in the bottom left and end at (100,100) in the top right." << "\n";
+    std::cout<<"The map coordinates start from (0,0) around the bottom left and end at (100,100) around the top right." << "\n";
     std::cout<<"Enter start_x [0..100] : ";
     std::cin>>start_x;
-
+    while (!(std::cin) || start_x < 0 || start_x > 100) {
+        std::cout << "Invalid entry. Enter a start_x from 0 to 100: ";
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        std::cin >> start_x;
+    }
     std::cout<<"Enter start_y [0..100] : ";
     std::cin>>start_y;
-
+    while (!(std::cin) || start_y < 0 || start_y > 100) {
+        std::cout << "Invalid entry. Enter a start_y from 0 to 100: ";
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        std::cin >> start_y;
+    }
     std::cout<<"Enter end_x [0..100] : ";
     std::cin>>end_x;
-
+    while (!(std::cin) || end_x < 0 || end_x > 100) {
+        std::cout << "Invalid entry. Enter a end_x from 0 to 100: ";
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        std::cin >> end_x;
+    }
     std::cout<<"Enter end_y [0..100] : ";
     std::cin>>end_y;
+    while (!(std::cin) || end_y < 0 || end_y > 100) {
+        std::cout << "Invalid entry. Enter a end_y from 0 to 100: ";
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        std::cin >> end_y;
+    }
+
+    
+    std::cout<<"\nStart coordinates: (" << start_x <<", " << start_y<< ")\n";
+    std::cout<<"End coordinates: (" << end_x <<", " << end_y<< ")\n"; */
+
+    std::array<float, 4> coordinates;
+        int counter = 0;
+        float temp = 0;
+        while (counter < 4){
+            std::cout << "Enter coordinate " << counter + 1 << ": ";
+            std::cin >> temp;
+            if ( !std::cin.fail() && temp <= 100 && temp >=0){
+                coordinates[counter] = temp;
+                counter++;
+            } else {
+                std::cout << "Invalid input" << "\n";
+                std::cin.clear();
+                std::cin.ignore(32767,'\n');
+            }  
+        }
+    std::cout<<"\nStart coordinates: (" << coordinates[0] <<", " << coordinates[1]<< ")\n";
+    std::cout<<"End coordinates: (" << coordinates[2] <<", " << coordinates[3]<< ")\n";
     // Build Model.
     RouteModel model{osm_data};
 
     // Create RoutePlanner object and perform A* search.
-    RoutePlanner route_planner{model, start_x, start_y, end_x, end_y};
+    //RoutePlanner route_planner{model, start_x, start_y, end_x, end_y};
+    RoutePlanner route_planner{model, coordinates[0], coordinates[1], coordinates[2], coordinates[3]};
     route_planner.AStarSearch();
 
     std::cout << "Distance: " << route_planner.GetDistance() << " meters. \n";

@@ -8,6 +8,13 @@ RouteModel::RouteModel(const std::vector<std::byte> &xml) : Model(xml) {
         m_Nodes.emplace_back(Node(counter, this, node));
         counter++;
     }
+    /* alternative implemenatation according to review 1 
+    //int counter = 0;
+    vector<Model::Node> vectorGivenByThisNodes = this->Nodes();
+    for (int i =0; i<vectorGivenByThisNodes.size(); i++) {
+        m_Nodes.emplace_back(Node(i, this, node));
+    }
+    */
     CreateNodeToRoadHashmap();
 }
 
