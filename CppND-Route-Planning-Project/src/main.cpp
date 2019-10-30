@@ -94,7 +94,7 @@ int main(int argc, const char **argv)
     
     std::cout<<"\nStart coordinates: (" << start_x <<", " << start_y<< ")\n";
     std::cout<<"End coordinates: (" << end_x <<", " << end_y<< ")\n"; */
-
+    std::cout<<"The map coordinates start from (0,0) around the bottom left and end at (100,100) around the top right." << "\n";
     std::array<float, 4> coordinates;
         int counter = 0;
         float temp = 0;
@@ -106,7 +106,7 @@ int main(int argc, const char **argv)
                 counter++;
             } else {
                 std::cout << "Invalid input" << "\n";
-                std::cin.clear();
+                std::cin.clear();  // this and next lines to avoid invaild input
                 std::cin.ignore(32767,'\n');
             }  
         }
